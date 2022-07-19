@@ -6,12 +6,14 @@ import {
   Heading,
   Text,
   FlatList,
+  Center,
 } from "native-base";
-import { SignOut } from "phosphor-react-native";
+import { SignOut, ChatTeardropText } from "phosphor-react-native";
 import { useState } from "react";
 
 import Logo from "../assets/logo_secondary.svg";
 import { Filter } from "../components/Filter";
+import { Button } from "../components/Button";
 import { Orders, IOrdersProps } from "../components/Orders";
 
 export const Home = () => {
@@ -20,42 +22,42 @@ export const Home = () => {
   );
 
   const [orders, setOrders] = useState<IOrdersProps[]>([
-    {
-      id: "1",
-      patrimony: "123456",
-      when: "18/07/2022 às 15:43",
-      status: "open",
-    },
-    {
-      id: "2",
-      patrimony: "324512",
-      when: "15/07/2022 às 12:20",
-      status: "close",
-    },
-    {
-      id: "3",
-      patrimony: "135689",
-      when: "18/07/2022 às 14:51",
-      status: "open",
-    },
-    {
-      id: "4",
-      patrimony: "865457",
-      when: "18/07/2022 às 10:00",
-      status: "open",
-    },
-    {
-      id: "5",
-      patrimony: "747777",
-      when: "17/07/2022 às 11:23",
-      status: "close",
-    },
-    {
-      id: "6",
-      patrimony: "222534",
-      when: "18/07/2022 às 10:11",
-      status: "open",
-    },
+    // {
+    //   id: "1",
+    //   patrimony: "123456",
+    //   when: "18/07/2022 às 15:43",
+    //   status: "open",
+    // },
+    // {
+    //   id: "2",
+    //   patrimony: "324512",
+    //   when: "15/07/2022 às 12:20",
+    //   status: "close",
+    // },
+    // {
+    //   id: "3",
+    //   patrimony: "135689",
+    //   when: "18/07/2022 às 14:51",
+    //   status: "open",
+    // },
+    // {
+    //   id: "4",
+    //   patrimony: "865457",
+    //   when: "18/07/2022 às 10:00",
+    //   status: "open",
+    // },
+    // {
+    //   id: "5",
+    //   patrimony: "747777",
+    //   when: "17/07/2022 às 11:23",
+    //   status: "close",
+    // },
+    // {
+    //   id: "6",
+    //   patrimony: "222534",
+    //   when: "18/07/2022 às 10:11",
+    //   status: "open",
+    // },
   ]);
 
   const { colors } = useTheme();
@@ -106,7 +108,25 @@ export const Home = () => {
           data={orders}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <Orders data={item} />}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 100 }}
+          ListEmptyComponent={() => (
+            <Center>
+              <ChatTeardropText color={colors.gray[300]} size={40} />
+              <Text
+                color="gray.300"
+                fontSize={"xl"}
+                mt="6"
+                textAlign={"center"}
+              >
+                Você ainda não possui solicitaçoẽs{" "}
+                {statusSelected === "open" ? "em aberto" : "finalizadas"}
+              </Text>
+            </Center>
+          )}
         />
+
+        <Button title="Nova solicitação" mt={4} />
       </VStack>
     </VStack>
   );
