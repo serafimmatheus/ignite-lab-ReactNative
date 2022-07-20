@@ -15,6 +15,7 @@ import Logo from "../assets/logo_secondary.svg";
 import { Filter } from "../components/Filter";
 import { Button } from "../components/Button";
 import { Orders, IOrdersProps } from "../components/Orders";
+import { useNavigation } from "@react-navigation/native";
 
 export const Home = () => {
   const [statusSelected, setStatusSelected] = useState<"open" | "close">(
@@ -22,43 +23,53 @@ export const Home = () => {
   );
 
   const [orders, setOrders] = useState<IOrdersProps[]>([
-    // {
-    //   id: "1",
-    //   patrimony: "123456",
-    //   when: "18/07/2022 às 15:43",
-    //   status: "open",
-    // },
-    // {
-    //   id: "2",
-    //   patrimony: "324512",
-    //   when: "15/07/2022 às 12:20",
-    //   status: "close",
-    // },
-    // {
-    //   id: "3",
-    //   patrimony: "135689",
-    //   when: "18/07/2022 às 14:51",
-    //   status: "open",
-    // },
-    // {
-    //   id: "4",
-    //   patrimony: "865457",
-    //   when: "18/07/2022 às 10:00",
-    //   status: "open",
-    // },
-    // {
-    //   id: "5",
-    //   patrimony: "747777",
-    //   when: "17/07/2022 às 11:23",
-    //   status: "close",
-    // },
-    // {
-    //   id: "6",
-    //   patrimony: "222534",
-    //   when: "18/07/2022 às 10:11",
-    //   status: "open",
-    // },
+    {
+      id: "1",
+      patrimony: "123456",
+      when: "18/07/2022 às 15:43",
+      status: "open",
+    },
+    {
+      id: "2",
+      patrimony: "324512",
+      when: "15/07/2022 às 12:20",
+      status: "close",
+    },
+    {
+      id: "3",
+      patrimony: "135689",
+      when: "18/07/2022 às 14:51",
+      status: "open",
+    },
+    {
+      id: "4",
+      patrimony: "865457",
+      when: "18/07/2022 às 10:00",
+      status: "open",
+    },
+    {
+      id: "5",
+      patrimony: "747777",
+      when: "17/07/2022 às 11:23",
+      status: "close",
+    },
+    {
+      id: "6",
+      patrimony: "222534",
+      when: "18/07/2022 às 10:11",
+      status: "open",
+    },
   ]);
+
+  const navigation = useNavigation();
+
+  const handleNewOrder = () => {
+    navigation.navigate("register");
+  };
+
+  const handleOpenDetatils = (orderId: string) => {
+    navigation.navigate("details", { orderId });
+  };
 
   const { colors } = useTheme();
   return (
@@ -84,9 +95,9 @@ export const Home = () => {
           justifyContent="space-between"
           alignItems={"center"}
         >
-          <Heading color="gray.100">Meus Chamados</Heading>
+          <Heading color="gray.100">Solicitações</Heading>
 
-          <Text color={"gray.200"}>3</Text>
+          <Text color={"gray.200"}>{orders.length}</Text>
         </HStack>
 
         <HStack space={3} mb={8}>
@@ -107,7 +118,9 @@ export const Home = () => {
         <FlatList
           data={orders}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Orders data={item} />}
+          renderItem={({ item }) => (
+            <Orders data={item} onPress={() => handleOpenDetatils(item.id)} />
+          )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 100 }}
           ListEmptyComponent={() => (
@@ -126,7 +139,7 @@ export const Home = () => {
           )}
         />
 
-        <Button title="Nova solicitação" mt={4} />
+        <Button title="Nova solicitação" mt={4} onPress={handleNewOrder} />
       </VStack>
     </VStack>
   );
